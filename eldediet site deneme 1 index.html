@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elde Diet - Diyet Yapmanın En Pratik Yolu</title>
+
+  <!-- Tailwind CSS (Tasarım için) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          transitionTimingFunction: {
+            /* Apple tarzı ultra akıcı animasyon eğrisi */
+            'apple': 'cubic-bezier(0.16, 1, 0.3, 1)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React ve ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Phosphor İkonları -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <style>
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    html {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    /* Donanım hızlandırma için temel optimizasyon */
+    .gpu-accelerated {
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+  </style>
+</head>
+<body class="transition-colors duration-500 ease-apple bg-black text-slate-900 dark:text-slate-50">
+  
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    
+    const createIcon = (iconClass) => ({ size = 24, className = "" }) => (
+      <i className={`${iconClass} ${className}`} style={{ fontSize: size, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}></i>
+    );
+
+    const Moon = createIcon("ph ph-moon");
+    const Sun = createIcon("ph ph-sun");
+    const ShieldCheck = createIcon("ph ph-shield-check");
+    const Utensils = createIcon("ph ph-fork-knife");
+    const Activity = createIcon("ph ph-activity");
+    const Smartphone = createIcon("ph ph-device-mobile");
+    const Monitor = createIcon("ph ph-monitor");
+    const Users = createIcon("ph ph-users");
+    const Calendar = createIcon("ph ph-calendar-blank");
+    const Award = createIcon("ph ph-medal");
+    const Palette = createIcon("ph ph-palette");
+    const Heart = createIcon("ph ph-heart");
+    const Mail = createIcon("ph ph-envelope");
+    const Linkedin = createIcon("ph ph-linkedin-logo");
+    const CheckCircle2 = createIcon("ph ph-check-circle");
+    const ChevronRight = createIcon("ph-bold ph-caret-right");
+    const Droplet = createIcon("ph ph-drop");
+    const Flame = createIcon("ph ph-fire");
+    const MessageCircle = createIcon("ph ph-chat-circle");
+    const Upload = createIcon("ph ph-upload-simple");
+    const Search = createIcon("ph ph-magnifying-glass");
+    const Bookmark = createIcon("ph ph-bookmark-simple");
+    const Sparkles = createIcon("ph ph-sparkle");
+    const X = createIcon("ph-bold ph-x");
+
+    const App = () => {
+      const [isDarkMode, setIsDarkMode] = useState(false);
+      const [showComingSoon, setShowComingSoon] = useState(false);
+      
+      const [navLogoError, setNavLogoError] = useState(false);
+      const [footerLogoError, setFooterLogoError] = useState(false);
+
+      const screenshots = [
+        "aciktema.png", 
+        "aciktema2.png", 
+        "koyutema1.png", 
+        "koyutema2.png"  
+      ];
+
+      useEffect(() => {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          setIsDarkMode(true);
+          document.documentElement.classList.add('dark');
+        }
+      }, []);
+
+      const toggleTheme = () => {
+        setIsDarkMode(!isDarkMode);
+        document.documentElement.classList.toggle('dark');
+      };
+
+      // --- MOCKUPLAR ---
+
+      const MockupHome = () => (
+        <div className="w-full h-full bg-[#080C16] text-white font-sans flex flex-col gpu-accelerated">
+          <div className="p-4 pt-10 flex-1 overflow-y-auto hide-scrollbar">
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center gap-2">
+                <div className="bg-gradient-to-tr from-emerald-500 to-emerald-400 p-1.5 rounded-xl shadow-lg shadow-emerald-500/20"><Utensils size={14} className="text-white" /></div>
+                <span className="font-bold text-[13px] tracking-tight">Elde Diet</span>
+              </div>
+              <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-slate-700 to-slate-600 border border-slate-500/50 flex items-center justify-center overflow-hidden shadow-inner">
+                 <span className="text-[9px] font-medium">AG</span>
+              </div>
+            </div>
+            
+            {/* OPTİMİZASYON: backdrop-blur-xl yerine düz renk (bg-[#121A2A]) kullanıldı */}
+            <div className="bg-[#121A2A] rounded-[1.25rem] p-4 mb-4 flex justify-between items-center border border-slate-700/50 shadow-xl">
+              <div className="flex flex-col items-center justify-center w-1/3">
+                <div className="w-10 h-10 rounded-full border-[3px] border-emerald-500 flex items-center justify-center bg-emerald-500/10 mb-1.5">
+                  <CheckCircle2 size={16} className="text-emerald-400" />
+                </div>
+                <span className="text-[8px] text-slate-400 font-bold tracking-wider leading-none mb-1">ÖĞÜNLER</span>
+                <span className="text-[11px] font-extrabold leading-none">3/3</span>
+              </div>
+              <div className="flex flex-col items-center justify-center w-1/3 border-x border-slate-700/50">
+                <div className="w-10 h-10 rounded-full border-[3px] border-blue-500/20 flex items-center justify-center bg-blue-500/5 mb-1.5">
+                  <Droplet size={16} className="text-blue-400" />
+                </div>
+                <span className="text-[8px] text-slate-400 font-bold tracking-wider leading-none mb-1">SU</span>
+                <span className="text-[11px] font-extrabold leading-none">0ml</span>
+              </div>
+              <div className="flex flex-col items-center justify-center w-1/3">
+                <div className="relative w-10 h-10 rounded-full border-[3px] border-amber-500/20 flex items-center justify-center bg-amber-500/5 mb-1.5">
+                  <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="#f59e0b" strokeWidth="3" strokeDasharray="113" strokeDashoffset="55" className="origin-center" />
+                  </svg>
+                  <Flame size={16} className="text-amber-400 z-10" />
+                </div>
+                <span className="text-[8px] text-slate-400 font-bold tracking-wider leading-none mb-1">KALORİ</span>
+                {/* BUG FIX: kcal yazısı için ayrı satır kullanıp font boyutunu optimize ettim */}
+                <span className="text-[10px] font-extrabold leading-none mt-0.5"><span className="text-[11px]">1020</span><span className="text-[8px] opacity-80">kcal</span></span>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-blue-900/40 to-blue-800/30 border border-blue-500/20 rounded-[1.25rem] p-3.5 mb-4 flex items-center gap-3">
+              <div className="bg-blue-500 text-white p-2 rounded-2xl shadow-lg shadow-blue-500/30"><Calendar size={16} /></div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[11px] font-bold mb-0.5 truncate">Yaklaşan Randevu</div>
+                <div className="text-[9px] text-blue-200/70 truncate">2026-04-03 - 13:20</div>
+              </div>
+              <ChevronRight size={16} className="text-blue-400/70 shrink-0" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="bg-[#121A2A] border border-slate-700/50 rounded-[1.25rem] p-3.5 relative overflow-hidden flex flex-col justify-between h-28">
+                <span className="text-[8px] text-rose-400 font-bold tracking-widest z-10 leading-none">KALAN KALORİ</span>
+                <div className="text-2xl font-bold text-rose-100 mt-2 z-10 tracking-tight leading-none">980</div>
+                <Flame size={56} className="absolute -bottom-3 -right-3 text-rose-500/10 z-0" />
+              </div>
+              <div className="bg-[#121A2A] border border-slate-700/50 rounded-[1.25rem] p-3.5 relative overflow-hidden flex flex-col justify-between h-28">
+                <span className="text-[8px] text-blue-400 font-bold tracking-widest z-10 leading-none">SU TAKİBİ</span>
+                <div className="text-xl font-bold text-blue-100 mt-1 z-10 leading-none">0 <span className="text-[10px] font-medium text-blue-200/50">ml</span></div>
+                <div className="flex justify-between mt-auto z-10">
+                  <button className="w-7 h-7 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 hover:bg-blue-500/20 transition-colors">-</button>
+                  <button className="w-7 h-7 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 hover:bg-blue-500/20 transition-colors">+</button>
+                </div>
+                <Droplet size={56} className="absolute -bottom-3 -right-3 text-blue-500/5 z-0" />
+              </div>
+            </div>
+          </div>
+          
+          <div className="w-full shrink-0 bg-[#0B101D] px-5 py-4 flex justify-between items-center border-t border-slate-700/50 z-20 relative">
+            <Users size={20} className="text-slate-500" />
+            <div className="bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 py-1.5 px-3 rounded-2xl flex items-center gap-1.5 shadow-lg shadow-emerald-500/5">
+              <Calendar size={16} /> <span className="text-[10px] font-bold tracking-wide">PLANIM</span>
+            </div>
+            <Activity size={20} className="text-slate-500" />
+            <Utensils size={20} className="text-slate-500" />
+            <MessageCircle size={20} className="text-slate-500" />
+          </div>
+        </div>
+      );
+
+      const MockupStats = () => (
+        <div className="w-full h-full bg-[#080C16] text-white font-sans flex flex-col gpu-accelerated">
+          <div className="p-4 pt-10 flex-1 overflow-y-auto hide-scrollbar">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-emerald-500/15 border border-emerald-500/20 p-2 rounded-2xl text-emerald-400">
+                <Activity size={18} />
+              </div>
+              <div>
+                <div className="font-bold text-[13px] tracking-tight mb-0.5">Gelişim Analizi</div>
+                <div className="text-[8px] text-slate-400 tracking-widest font-medium leading-none">DETAYLI İSTATİSTİKLER</div>
+              </div>
+            </div>
+
+            <div className="flex bg-[#121A2A] rounded-xl p-1 mb-6 border border-slate-700/50">
+              <div className="flex-1 text-center text-[10px] py-1.5 text-slate-500 font-medium">1H</div>
+              <div className="flex-1 text-center text-[10px] py-1.5 bg-slate-700/50 rounded-lg font-bold shadow-sm">1A</div>
+              <div className="flex-1 text-center text-[10px] py-1.5 text-slate-500 font-medium">1Y</div>
+            </div>
+
+            <div className="bg-[#121A2A] border border-slate-700/50 rounded-[1.5rem] p-4 relative h-64 shadow-2xl flex flex-col">
+              <div className="flex justify-between items-start mb-4 z-10 relative">
+                <div>
+                  <div className="text-3xl font-bold flex items-baseline gap-1 tracking-tighter leading-none">70 <span className="text-[10px] font-medium text-slate-500">kg</span></div>
+                  <div className="text-[8px] text-slate-400 tracking-widest font-bold mt-2 leading-none">GÜNCEL KİLO (KG)</div>
+                </div>
+                <div className="bg-emerald-500 p-2 rounded-xl text-white shadow-lg shadow-emerald-500/20">
+                  <Activity size={16} />
+                </div>
+              </div>
+              
+              <div className="absolute bottom-4 left-4 right-4 h-32 flex items-end">
+                <svg className="w-full h-full" viewBox="0 0 100 50" preserveAspectRatio="none">
+                  <path d="M0,15 Q10,5 20,20 T40,30 T60,40 T80,45 T100,38" fill="none" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" />
+                  <path d="M0,15 Q10,5 20,20 T40,30 T60,40 T80,45 T100,38 L100,50 L0,50 Z" fill="url(#grad2)" />
+                  <defs>
+                    <linearGradient id="grad2" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div className="absolute bottom-4 left-4 right-4 h-32 flex flex-col justify-between z-0">
+                <div className="border-b border-slate-700/30 w-full"></div>
+                <div className="border-b border-slate-700/30 w-full"></div>
+                <div className="border-b border-slate-700/30 w-full"></div>
+                <div className="border-b border-slate-700/30 w-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      const MockupKitchen = () => (
+        <div className="w-full h-full bg-[#FAFAFA] text-slate-900 font-sans flex flex-col gpu-accelerated">
+          <div className="p-4 pt-10 flex-1 overflow-y-auto hide-scrollbar">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-extrabold tracking-tight">Mutfak</h1>
+              <div className="flex gap-1 bg-white p-1 rounded-full shadow-sm border border-slate-100">
+                <div className="bg-slate-900 text-white text-[9px] px-3 py-1.5 rounded-full font-bold">TÜMÜ</div>
+                <div className="text-slate-500 text-[9px] px-3 py-1.5 font-bold">KAYDEDİLENLER</div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-3 flex items-center gap-2 mb-4 shadow-sm border border-slate-100">
+              <Search size={16} className="text-slate-400" />
+              <span className="text-[11px] text-slate-400 font-medium">Tariflerde ara...</span>
+            </div>
+
+            <div className="flex gap-2 mb-6 overflow-x-auto hide-scrollbar pb-1">
+              <div className="bg-slate-900 text-white text-[10px] px-4 py-2 rounded-full font-bold whitespace-nowrap shadow-md">TÜMÜ</div>
+              <div className="bg-white text-slate-600 text-[10px] px-4 py-2 rounded-full font-bold whitespace-nowrap shadow-sm border border-slate-100">SEBZE</div>
+              <div className="bg-white text-slate-600 text-[10px] px-4 py-2 rounded-full font-bold whitespace-nowrap shadow-sm border border-slate-100">ET</div>
+            </div>
+
+            <div className="bg-white rounded-[1.5rem] overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 mb-4 transition-transform duration-300 ease-apple hover:-translate-y-1 cursor-pointer">
+              <div className="h-40 bg-gradient-to-br from-emerald-100 to-green-200 relative p-3 flex flex-col justify-between">
+                <div className="flex justify-between items-start">
+                  <div className="bg-white/90 text-emerald-600 text-[9px] px-2 py-1 rounded-lg font-bold flex items-center gap-1 shadow-sm">
+                    <Utensils size={10} /> KAHVALTI
+                  </div>
+                  <div className="bg-white/90 w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
+                    <Bookmark size={14} className="text-slate-700" />
+                  </div>
+                </div>
+                <div className="self-end bg-slate-900/90 text-white text-[9px] px-2 py-1 rounded-lg font-bold flex items-center gap-1 shadow-lg">
+                  <Flame size={10} className="text-rose-400" /> 245 KCAL
+                </div>
+              </div>
+              <div className="p-4">
+                <h3 className="font-extrabold text-slate-900 text-lg tracking-tight mb-1">Avokado Yatağında Yumurta</h3>
+                <p className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold mb-2 leading-none">FURKAN ARGUNŞAH</p>
+                <p className="text-[11px] text-slate-500 font-medium leading-relaxed">Güne enerjik başlamak için sağlıklı yağlar ve yüksek protein içeren harika bir lezzet.</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-[1.5rem] overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 mb-4 opacity-75 origin-top transition-all duration-300 ease-apple hover:opacity-100 cursor-pointer">
+              <div className="h-24 bg-gradient-to-br from-pink-100 to-rose-200 relative p-3 flex flex-col justify-between">
+                <div className="flex justify-between items-start">
+                  <div className="bg-white/90 text-pink-600 text-[9px] px-2 py-1 rounded-lg font-bold flex items-center gap-1 shadow-sm">
+                    <Droplet size={10} /> İÇECEK
+                  </div>
+                </div>
+              </div>
+              <div className="p-4">
+                <h3 className="font-extrabold text-slate-900 text-md tracking-tight mb-1">Fit Kokteyl</h3>
+                <p className="text-[9px] text-emerald-500 uppercase tracking-widest font-bold mb-1 leading-none">ATA GENCELLER</p>
+                <p className="text-[10px] text-slate-500 font-medium truncate">Sağlıklı ve ferahlatıcı bir içecek.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      const PhoneWrapper = ({ children, className = "" }) => (
+        <div className={`relative shrink-0 mx-auto border-slate-900 dark:border-slate-700 bg-slate-900 dark:bg-slate-800 border-[10px] rounded-[3rem] h-[600px] w-[280px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.08)] overflow-hidden transition-transform duration-700 ease-apple gpu-accelerated ${className}`}>
+          <div className="absolute top-0 inset-x-0 h-6 bg-slate-900 dark:bg-slate-700 rounded-b-3xl w-36 mx-auto z-50 flex justify-center items-end pb-1.5">
+            <div className="w-12 h-1.5 bg-slate-800 dark:bg-slate-600 rounded-full"></div>
+          </div>
+          <div className="w-full h-full bg-white dark:bg-[#080C16] rounded-[2.2rem] overflow-hidden relative flex flex-col gpu-accelerated">
+            {children}
+          </div>
+        </div>
+      );
+
+      return (
+        <div className="min-h-screen text-slate-900 dark:text-slate-50 relative z-10">
+          
+          {/* OPTİMİZE EDİLMİŞ GLOBAL ARKA PLAN */}
+          <div className="fixed inset-0 z-[-1] pointer-events-none bg-[#F8FAFC] dark:bg-[#030712] overflow-hidden">
+            <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-pink-300/20 dark:bg-pink-700/10 rounded-full blur-[80px]"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-emerald-300/20 dark:bg-emerald-700/10 rounded-full blur-[80px]"></div>
+            <div className="absolute top-[30%] left-[20%] w-[50%] h-[50%] bg-blue-300/15 dark:bg-indigo-700/10 rounded-full blur-[80px]"></div>
+          </div>
+
+          {/* Navbar */}
+          <nav className="fixed w-full z-50 top-0 bg-white/60 dark:bg-[#030712]/60 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50 transition-colors duration-500">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center h-20">
+                <div className="flex items-center gap-2 cursor-pointer group">
+                  {!navLogoError ? (
+                    <img 
+                      src={isDarkMode ? "eldedietkoyu.png" : "eldedietacik.png"} 
+                      alt="Elde Diet" 
+                      /* LOGO ALANI DÜZENLEMESİ: Otomatik boyutlandırma ve şeffaf hizalama */
+                      className="w-[200px] sm:w-[300px] h-[50px] sm:h-[60px] object-contain object-left transition-transform duration-300 ease-apple group-hover:scale-105"
+                      onError={() => setNavLogoError(true)}
+                    />
+                  ) : (
+                    <>
+                      <div className="bg-gradient-to-tr from-emerald-500 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-emerald-500/20 transition-transform duration-300 ease-apple group-hover:scale-105">
+                        <Utensils size={24} />
+                      </div>
+                      <span className="font-extrabold text-2xl tracking-tighter">Elde Diet</span>
+                    </>
+                  )}
+                </div>
+                
+                <div className="hidden md:flex space-x-10 font-semibold text-[13px] tracking-wide text-slate-600 dark:text-slate-300">
+                  <a href="#ozellikler" className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300 ease-out">Özellikler</a>
+                  <a href="#diyetisyenler" className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300 ease-out">Diyetisyenler</a>
+                  <a href="#danisanlar" className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300 ease-out">Danışanlar</a>
+                  <a href="#mutfak" className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300 ease-out">Mutfak</a>
+                  <a href="#ekranlar" className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300 ease-out">Ekranlar</a>
+                  <a href="#iletisim" className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300 ease-out">İletişim</a>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <button 
+                    onClick={toggleTheme} 
+                    className="p-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 transition-colors duration-300 ease-out border border-slate-200/50 dark:border-slate-700/50"
+                    aria-label="Toggle Dark Mode"
+                  >
+                    {isDarkMode ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-slate-700" />}
+                  </button>
+                  <button 
+                    onClick={() => setShowComingSoon(true)}
+                    className="hidden sm:flex bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-transform duration-300 ease-apple hover:scale-105 hover:shadow-xl"
+                  >
+                    Uygulamayı İndir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          {/* Hero Section */}
+          <section className="pt-32 pb-20 md:pt-48 md:pb-32 relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <div className="space-y-8 z-10 text-center lg:text-left">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-slate-900/60 text-emerald-600 dark:text-emerald-400 font-bold text-[11px] uppercase tracking-widest border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Sağlıklı Yaşama Giden En Erişilebilir Yol
+                  </div>
+                  <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter">
+                    Diyet Yapmanın <br className="hidden lg:block"/> 
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">
+                      En Pratik Yolu
+                    </span>
+                  </h1>
+                  <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 lg:pr-10 leading-relaxed font-medium">
+                    Ofise gitmek için zamanınız olmuyorsa, zaman veya bütçe konusunda çekinceleriniz oluyorsa ve "nereden başlamalıyım, nasıl takip edeceğim" diyorsanız; danışanları diyetisyenlerle buluşturuyoruz. 10'dan fazla diyetisyen ve 20'den fazla danışanın geri bildirimleriyle kusursuzlaştırılan arayüzümüzle hedeflerinize ulaşmak hiç bu kadar kolay olmamıştı.
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
+                    <button 
+                      onClick={() => setShowComingSoon(true)}
+                      className="flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-4 rounded-full font-bold transition-transform duration-300 ease-apple hover:-translate-y-1 shadow-xl shadow-slate-900/10 dark:shadow-white/10"
+                    >
+                      <Smartphone size={20} />
+                      App Store'dan İndir
+                    </button>
+                    <button 
+                      onClick={() => setShowComingSoon(true)}
+                      className="flex items-center justify-center gap-2 bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white px-8 py-4 rounded-full font-bold border border-slate-200 dark:border-slate-800 transition-transform duration-300 ease-apple hover:-translate-y-1 shadow-lg"
+                    >
+                      <Smartphone size={20} />
+                      Google Play
+                    </button>
+                  </div>
+                </div>
+
+                <div className="relative flex justify-center mt-10 lg:mt-0 z-10 perspective-1000">
+                  <div className="relative w-full max-w-[400px] h-[600px] flex justify-center items-center">
+                    <PhoneWrapper className="relative z-20 hover:scale-[1.02]">
+                      <MockupHome />
+                    </PhoneWrapper>
+                    
+                    <PhoneWrapper className="absolute top-8 right-0 lg:-right-8 -z-10 opacity-60 dark:opacity-40 scale-90 rotate-6 hover:rotate-3">
+                      <MockupStats />
+                    </PhoneWrapper>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          {/* Özellikler */}
+          <section id="ozellikler" className="py-24 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center max-w-3xl mx-auto mb-20">
+                <h2 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight">Sıradan Bir Diyet Uygulaması Değil</h2>
+                <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">
+                  Elde Diet, hem sağlık profesyonellerinin hem de kullanıcıların hayatını kolaylaştırmak için tasarlandı. Kişiselleştirilebilir, güvenli ve sosyal bir platform.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <FeatureCard 
+                  icon={<ShieldCheck className="text-emerald-500" size={28} />}
+                  title="Kesin Gizlilik ve Güvenlik"
+                  desc="İletişimlerde cep numarası ve e-posta gibi detaylar gizli tutulur. Gerçek kullanıcı doğrulaması yapılır ancak kişisel iletişim verileriniz kimseyle paylaşılmaz."
+                />
+                <FeatureCard 
+                  icon={<Activity className="text-emerald-500" size={28} />}
+                  title="Gerçek Zamanlı Takip"
+                  desc="Günlük öğün ve su takibinizi anlık yapın. Gelişim analizi ekranları ile geçmişe dönük istatistiklerinizi kolayca incelesin."
+                />
+                <FeatureCard 
+                  icon={<Calendar className="text-emerald-500" size={28} />}
+                  title="Şeffaf Randevu Sistemi"
+                  desc="Diyetisyenlerin belirlediği tek bir aylık ücret ile program takibi, mesajlaşma ve sınırsız yapay zeka (barkod okuma, tabak kalori hesabı gibi yardımcı özellikler) erişimine sahip olun."
+                />
+                <FeatureCard 
+                  icon={<Award className="text-emerald-500" size={28} />}
+                  title="Motivasyon ve Rozetler"
+                  desc="Hedeflerden saptığınızda sizi motive edecek tatlı mektuplar alın. Programınıza uyumunuza göre rozetler kazanın."
+                />
+                <FeatureCard 
+                  icon={<Palette className="text-emerald-500" size={28} />}
+                  title="Tam Kişiselleştirme"
+                  desc="Her insan özeldir! Arka plan temaları ve özelleştirilebilen alt navigasyon barı ile uygulamayı kendi göz zevkinize ayarlayın."
+                />
+                <FeatureCard 
+                  icon={<Monitor className="text-emerald-500" size={28} />}
+                  title="Tüm Platformlarda"
+                  desc="iOS, Android, Tablet ve Web üzerinden tüm özelliklere eksiksiz erişim. Diyetisyenler için bilgisayardan program yazma kolaylığı!"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* İki Yönlü Platform */}
+          <section className="py-24 bg-white/40 dark:bg-slate-900/40 border-y border-white/50 dark:border-slate-800/50 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              
+              <div id="diyetisyenler" className="grid lg:grid-cols-2 gap-16 items-center mb-32">
+                <div className="order-2 lg:order-1 flex justify-center">
+                   <PhoneWrapper className="hover:scale-[1.02] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]">
+                     <MockupStats />
+                   </PhoneWrapper>
+                </div>
+                <div className="order-1 lg:order-2 space-y-8">
+                  <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-blue-50/90 dark:bg-blue-500/10 border border-blue-100/50 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 font-bold text-xs uppercase tracking-widest">
+                    <Users size={16} /> Diyetisyenler
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">Diyetisyenler İçin</h2>
+                  <p className="text-lg text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+                    İster stajyer, ister yeni mezun, ister uzman bir diyetisyen olun; Elde Diet size yepyeni bir gelir modeli sunuyor.
+                  </p>
+                  <ul className="space-y-5">
+                    <ListItem text="Zaman ve mekan sınırı olmadan, Türkiye'nin her yerinden danışan kabul edin." />
+                    <ListItem text="Şablon sistemimizle hızlı ve pratik bir şekilde beslenme programları hazırlayın." />
+                    <ListItem text="Danışanların anlık takiplerini gerçek zamanlı grafiklerle izleyin." />
+                    <ListItem text="Takviminizi kendiniz yönetin ve ücreti özgürce belirleyin." />
+                  </ul>
+                </div>
+              </div>
+
+              <div id="danisanlar" className="grid lg:grid-cols-2 gap-16 items-center">
+                <div className="space-y-8">
+                  <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-emerald-50/90 dark:bg-emerald-500/10 border border-emerald-100/50 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-widest">
+                    <Heart size={16} /> Danışanlar
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">Danışanlar İçin</h2>
+                  <p className="text-lg text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+                    Fiyat, mesafe veya zaman kısıtlamaları yüzünden sağlığınızı ertelemeyin. Uzman desteği bir dokunuş uzağınızda.
+                  </p>
+                  <ul className="space-y-5">
+                    <ListItem text="Bütçenize ve ihtiyaçlarınıza uygun onlarca diyetisyen arasından seçiminizi yapın." />
+                    <ListItem text="Gelişmiş istatistik ekranları ile kendi gelişiminizi anlık olarak takip edin." />
+                    <ListItem text="Telefon numaranızı paylaşmak zorunda kalmadan güvenli mesajlaşın." />
+                    <ListItem text="Sınırsız yapay zeka desteği ile sorularınıza anında yanıt bulun." />
+                  </ul>
+                </div>
+                <div className="flex justify-center relative">
+                   <PhoneWrapper className="hover:scale-[1.02] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]">
+                     <MockupHome />
+                   </PhoneWrapper>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          {/* Sosyallik ve Mutfak */}
+          <section id="mutfak" className="py-24 relative overflow-hidden bg-transparent">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <div className="space-y-8 z-10">
+                  <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1]">
+                    Diyet Serüveninde <br/>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">Yalnız Değilsiniz</span>
+                  </h2>
+                  <p className="text-lg text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+                    Sadece statik bir takip uygulaması değiliz. Motivasyonunuzu paylaşabileceğiniz ve lezzetli keşifler yapabileceğiniz canlı bir platform tasarladık.
+                  </p>
+                  
+                  <div className="space-y-5 mt-10">
+                    <div className="bg-white/80 dark:bg-slate-900/60 p-8 rounded-3xl shadow-sm border border-slate-200/50 dark:border-slate-800/50 transition-transform duration-300 ease-apple hover:-translate-y-1">
+                      <h4 className="font-extrabold text-xl flex items-center gap-3 mb-3">
+                        <div className="p-2 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl"><Users className="text-emerald-500" size={20} /></div> Akış (Feed) Sekmesi
+                      </h4>
+                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed">Sizinle aynı motivasyonu paylaşan danışanlarla günlük rutinlerinizi paylaşın. Uzman diyetisyenlerden genel tavsiyeler okuyun.</p>
+                    </div>
+                    
+                    <div className="bg-white/80 dark:bg-slate-900/60 p-8 rounded-3xl shadow-sm border border-slate-200/50 dark:border-slate-800/50 transition-transform duration-300 ease-apple hover:-translate-y-1">
+                      <h4 className="font-extrabold text-xl flex items-center gap-3 mb-3">
+                        <div className="p-2 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl"><Utensils className="text-emerald-500" size={20} /></div> Mutfak Sekmesi
+                      </h4>
+                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed">Yalnızca diyetisyenlerimizin oluşturduğu sağlıklı ve güvenilir tarifler. İster anında yapın, isterseniz sonraya kaydedin.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-center relative">
+                   <div className="absolute inset-0 bg-emerald-400/10 dark:bg-emerald-500/10 blur-[80px] rounded-full transform scale-75"></div>
+                   <PhoneWrapper className="hover:scale-[1.02] shadow-[0_30px_60px_-15px_rgba(16,185,129,0.2)]">
+                      <MockupKitchen />
+                   </PhoneWrapper>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          {/* Ekran Görüntüleri Galerisi */}
+          <section id="ekranlar" className="py-24 bg-white/30 dark:bg-slate-900/30 border-t border-white/50 dark:border-slate-800/50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center max-w-2xl mx-auto mb-16">
+                <h2 className="text-4xl font-extrabold mb-4 tracking-tight">Uygulama İçi Ekranlar</h2>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {screenshots.map((item, index) => (
+                  <div key={index} className="aspect-[9/19] bg-white/60 dark:bg-slate-900/60 rounded-[2rem] border border-slate-200/50 dark:border-slate-700/50 flex flex-col items-center justify-center text-slate-400 hover:bg-white/80 dark:hover:bg-slate-800/80 transition-colors duration-300 cursor-pointer group shadow-sm hover:shadow-md overflow-hidden relative">
+                    {item ? (
+                      <img src={item} alt={`Ekran Görüntüsü ${index + 1}`} className="w-full h-full object-cover rounded-[2rem] transition-transform duration-500 ease-apple group-hover:scale-105" />
+                    ) : (
+                      <>
+                        <Upload size={28} className="mb-3 transition-transform duration-300 ease-apple group-hover:-translate-y-1 text-emerald-500" />
+                        <span className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Görsel Yükle</span>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Footer / İletişim */}
+          <footer id="iletisim" className="bg-slate-900 dark:bg-[#02050A] text-white pt-20 pb-10 border-t border-slate-800">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16 border-b border-slate-800 pb-16">
+                
+                <div className="lg:col-span-5 space-y-6">
+                  <div className="flex items-center gap-2">
+                    {!footerLogoError ? (
+                      <img 
+                        src="eldedietacik.png" 
+                        alt="Elde Diet" 
+                        /* LOGO ALANI DÜZENLEMESİ: Otomatik boyutlandırma ve şeffaf hizalama */
+                        className="w-[250px] sm:w-[300px] h-[60px] sm:h-[80px] object-contain object-left"
+                        onError={() => setFooterLogoError(true)}
+                      />
+                    ) : (
+                      <>
+                        <div className="bg-emerald-500 p-2 rounded-xl text-white">
+                          <Utensils size={24} />
+                        </div>
+                        <span className="font-extrabold text-2xl tracking-tighter">Elde Diet</span>
+                      </>
+                    )}
+                  </div>
+                  <p className="text-slate-400 leading-relaxed text-sm font-medium pr-10">
+                    Elde Diet geliştirme ekibi olarak projemize çok güveniyoruz. Uygulamamız için patent başvurumuzu da hazırladık ve başvuruda bulunacağız. Umarız ki projemiz, hem sağlık profesyonelleri hem de danışanlar için son derece verimli ve vazgeçilmez bir uygulama haline gelir.
+                  </p>
+                </div>
+
+                <div className="lg:col-span-3 lg:col-start-7">
+                  <h4 className="font-bold text-sm uppercase tracking-widest mb-6 text-slate-300">Hızlı Linkler</h4>
+                  <ul className="space-y-4 text-sm font-medium text-slate-400">
+                    <li><a href="#ozellikler" className="hover:text-emerald-400 transition-colors duration-300">Özellikler</a></li>
+                    <li><a href="#diyetisyenler" className="hover:text-emerald-400 transition-colors duration-300">Diyetisyen Başvurusu</a></li>
+                    <li><a href="#danisanlar" className="hover:text-emerald-400 transition-colors duration-300">Nasıl Çalışır?</a></li>
+                    <li><a href="#ekranlar" className="hover:text-emerald-400 transition-colors duration-300">Ekran Görüntüleri</a></li>
+                  </ul>
+                </div>
+
+                <div className="lg:col-span-3">
+                  <h4 className="font-bold text-sm uppercase tracking-widest mb-2 text-slate-300">İletişim</h4>
+                  <p className="text-slate-400 text-xs mb-6">Herhangi bir sorunuz veya tavsiyeniz olursa lütfen bizimle iletişime geçin.</p>
+                  <div className="space-y-5 text-sm font-medium text-slate-400">
+                    <a href="mailto:atagenceller@valorain.com" className="flex items-center gap-3 hover:text-emerald-400 transition-colors duration-300">
+                      <Mail size={18} />
+                      atagenceller@valorain.com
+                    </a>
+                    
+                    <div className="pt-2">
+                      <h5 className="font-semibold text-slate-500 mb-4 text-xs uppercase tracking-widest">LinkedIn Profillerimiz</h5>
+                      <div className="flex flex-col gap-3">
+                        <a href="https://www.linkedin.com/company/valorain/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-emerald-400 transition-colors duration-300">
+                          <Linkedin size={18} /> Valorain
+                        </a>
+                        <a href="https://www.linkedin.com/in/ata-genceller" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-emerald-400 transition-colors duration-300">
+                          <Linkedin size={18} /> Ata Genceller
+                        </a>
+                        <a href="https://www.linkedin.com/in/furkanargunsah/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-emerald-400 transition-colors duration-300">
+                          <Linkedin size={18} /> Furkan Argunşah
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div className="flex flex-col md:flex-row justify-between items-center text-xs font-medium text-slate-500">
+                <p>&copy; {new Date().getFullYear()} Valorain - Elde Diet. Tüm hakları saklıdır.</p>
+                <p className="mt-4 md:mt-0 flex items-center gap-1.5">
+                  Valorain ekibi tarafından <Heart size={14} className="text-red-500 fill-current" /> ile Ankara'da tasarlandı.
+                </p>
+              </div>
+            </div>
+          </footer>
+
+          {/* Yakında Sizlerle Pop-up (Modal) */}
+          {showComingSoon && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <div 
+                className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
+                onClick={() => setShowComingSoon(false)}
+              ></div>
+              
+              <div className="relative bg-white dark:bg-slate-900 rounded-[2rem] p-8 max-w-sm w-full shadow-2xl border border-slate-200/50 dark:border-slate-800/50 text-center transition-transform duration-300 ease-apple">
+                <button 
+                  onClick={() => setShowComingSoon(false)}
+                  className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 rounded-full transition-colors duration-300"
+                >
+                  <X size={18} />
+                </button>
+                
+                <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
+                  <Sparkles size={32} />
+                </div>
+                
+                <h3 className="text-2xl font-extrabold tracking-tight mb-2">Yakında Sizlerle :)</h3>
+                <p className="text-slate-600 dark:text-slate-400 font-medium text-sm leading-relaxed mb-6">
+                  Elde Diet çok yakında App Store ve Google Play'de yerini alacak. Geliştirme ekibimiz son hızla çalışıyor!
+                </p>
+                
+                <button 
+                  onClick={() => setShowComingSoon(false)}
+                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3.5 rounded-2xl transition-transform duration-300 ease-apple hover:scale-[1.02] shadow-lg shadow-emerald-500/20"
+                >
+                  Harika, Bekliyorum!
+                </button>
+              </div>
+            </div>
+          )}
+
+        </div>
+      );
+    };
+
+    const FeatureCard = ({ icon, title, desc }) => (
+      <div className="p-8 rounded-3xl bg-white/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 transition-transform duration-500 ease-apple hover:-translate-y-1.5 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-black/50">
+        <div className="mb-6 bg-slate-50 dark:bg-slate-800/50 w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm border border-slate-100 dark:border-slate-700/50">
+          {icon}
+        </div>
+        <h3 className="text-xl font-extrabold mb-3 tracking-tight">{title}</h3>
+        <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm font-medium">
+          {desc}
+        </p>
+      </div>
+    );
+
+    const ListItem = ({ text }) => (
+      <li className="flex items-start gap-4">
+        <div className="bg-emerald-100 dark:bg-emerald-500/20 p-1 rounded-full shrink-0 mt-0.5">
+          <CheckCircle2 className="text-emerald-600 dark:text-emerald-400" size={16} />
+        </div>
+        <span className="text-slate-700 dark:text-slate-300 font-medium leading-relaxed">{text}</span>
+      </li>
+    );
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
